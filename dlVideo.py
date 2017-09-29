@@ -1,7 +1,18 @@
+import bs4
+import requests
 import pafy
 
-url = "https://www.youtube.com/watch?v=19WUwZYM7bM"
-save_path = "/media/HDDLinux"
+def get_search_url(keywords):
+    search_url = "https://www.youtube.com/results?q="
+    cc_filter = "&sp=EgIwAVAU"
+
+    for keyword in keywords:
+        search_url = search_url + keyword
+        if keyword is not keywords[len(keywords)-1]:
+            search_url = search_url + "+"
+    search_url =  search_url + cc_filter
+    print(search_url)
+    return search_url
 
 def get_download_metadata(url, save_path):
     youtube = pafy.new(url)
