@@ -15,17 +15,6 @@ def get_search_url(keywords):
     print(search_url)
     return search_url
 
-def get_download_metadata(url, save_path):
-    youtube = pafy.new(url)
-    author = youtube.author
-
-    video = youtube.getbest(preftype="mp4")
-    video.download(quiet= False,filepath=save_path)
-
-    cc_reference = str("%s: %s" %(author, url))
-    #print(cc_reference)
-    return cc_reference
-
 def get_video_links(url):
     html = requests.get(url)
     soup = BeautifulSoup(html.text, 'html.parser')
@@ -37,3 +26,15 @@ def get_video_links(url):
             links.append(link['href'])
     print(links)
     return links
+
+def get_download_metadata(link, save_path):
+    url = "https://www.youtube.com"+link
+    youtube = pafy.new(url)
+    author = youtube.author
+
+    video = youtube.getbest(preftype="mp4")
+    video.download(quiet= False,filepath=save_path)
+
+    cc_reference = str("%s: %s" %(author, url))
+    #print(cc_reference)
+    return cc_reference
