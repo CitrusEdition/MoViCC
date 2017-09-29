@@ -35,7 +35,7 @@ def get_download_metadata(link, save_path):
     youtube = pafy.new(link)
     author = youtube.author
 
-    # download vdeo in best available mp4-format
+    # download video in best available mp4-format
     minLength = 2
     maxLength = 15
     duration = youtube.duration.split(':')
@@ -51,9 +51,16 @@ def get_download_metadata(link, save_path):
     return cc_reference
 
 def save_metadata_txt(save_path,all_metadata):
-    with open(save_path+"cc_authors.txt", "w", newline="\r\n") as o:
-        for metadata in all_metadata:
-            o.write(metadata+"\n")
+    author_path = save_path
+    if save_path.endswith('/'):
+        author_path = author_path + "content_authors.txt"
+    else:
+        author_path = author_path + "/content_authors.txt"
+
+    o = open(author_path,'w', newline="\r\n")
+    for metadata in all_metadata:
+        o.write(metadata + "\n")
+    o.close()
 
 def downloadVideos(keywords, save_path, shrink):
     search_url = get_search_url(keywords)
@@ -73,5 +80,5 @@ def downloadVideos(keywords, save_path, shrink):
             except Exception as e:
                 pass
 
-
+    print(all_metadata)
     save_metadata_txt(save_path, all_metadata) # save cc_authors.txt in SAVE_PATH
